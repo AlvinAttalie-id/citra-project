@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->string('alasan', 100)->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('id_keluar')->references('id_keluar')->on('barang_keluar')->cascadeOnDelete();
             $table->foreign('kode_barang')->references('kode_barang')->on('stok_barang')->cascadeOnDelete();

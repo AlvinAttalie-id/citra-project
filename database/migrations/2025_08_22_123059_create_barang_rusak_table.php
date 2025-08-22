@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('keterangan', 100)->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('kode_barang')->references('kode_barang')->on('stok_barang')->cascadeOnDelete();
         });

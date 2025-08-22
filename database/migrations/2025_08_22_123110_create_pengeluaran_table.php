@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('pengeluaran', function (Blueprint $table) {
             $table->id('id_pengeluaran');
+            $table->string('slug')->unique();
             $table->string('jenis_pengeluaran', 100);
             $table->date('tgl_pengeluaran');
             $table->integer('biaya');
             $table->string('bukti', 100)->nullable();
             $table->string('keterangan', 100)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
