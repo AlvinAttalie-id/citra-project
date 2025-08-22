@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('no_hp', 20)->nullable();
             $table->enum('role', ['admin', 'suplayer']);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
