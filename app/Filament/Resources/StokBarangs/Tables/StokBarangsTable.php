@@ -20,6 +20,8 @@ class StokBarangsTable
             ->columns([
                 TextColumn::make('kode_barang')
                     ->searchable(),
+                TextColumn::make('jenis_barang')
+                    ->searchable(),
                 TextColumn::make('jumlah_stok')
                     ->numeric()
                     ->sortable(),

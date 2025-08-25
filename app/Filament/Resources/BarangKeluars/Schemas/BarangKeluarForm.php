@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources\BarangKeluars\Schemas;
 
+use App\Models\StokBarang;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Auth;
 
 class BarangKeluarForm
 {
@@ -12,11 +15,16 @@ class BarangKeluarForm
     {
         return $schema
             ->components([
-                TextInput::make('kode_barang')
+                Select::make('kode_barang')
+                    ->label('Pilih Barang')
+                    ->options(
+                        StokBarang::pluck('jenis_barang', 'kode_barang')
+                    )
+                    ->searchable()
                     ->required(),
                 TextInput::make('id_user')
-                    ->required()
-                    ->numeric(),
+                    ->default(fn() => Auth::id())
+                    ->hidden(),
                 DatePicker::make('tgl_keluar')
                     ->required(),
                 TextInput::make('jumlah')

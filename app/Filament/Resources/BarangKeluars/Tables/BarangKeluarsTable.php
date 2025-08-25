@@ -20,9 +20,14 @@ class BarangKeluarsTable
             ->columns([
                 TextColumn::make('kode_barang')
                     ->searchable(),
-                TextColumn::make('id_user')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('stokBarang.jenis_barang')
+                    ->label('Jenis Barang')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('admin.name')
+                    ->label('Dibuat Oleh')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('tgl_keluar')
                     ->date()
                     ->sortable(),
