@@ -12,8 +12,6 @@ class StokBarangForm
     {
         return $schema
             ->components([
-                TextInput::make('slug')
-                    ->required(),
                 Textarea::make('jenis_barang')
                     ->required()
                     ->columnSpanFull(),

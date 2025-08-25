@@ -29,13 +29,19 @@ class BarangKeluar extends Model
         parent::boot();
 
         static::creating(function ($keluar) {
-            $keluar->slug = Str::slug($keluar->kode_barang . '-' . ($keluar->keterangan ?? 'keluar'));
+            // Generate angka random 1–99999, lalu format jadi 5 digit (leading zero)
+            $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
 
-            $originalSlug = $keluar->slug;
-            $count = 1;
-            while (static::where('slug', $keluar->slug)->exists()) {
-                $keluar->slug = $originalSlug . '-' . $count++;
+            // Bentuk slug = BK-XXXXX
+            $slug = 'BK-' . $randomNumber;
+
+            // Cek biar unik
+            while (static::where('slug', $slug)->exists()) {
+                $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+                $slug = 'BK-' . $randomNumber;
             }
+
+            $keluar->slug = $slug;
         });
     }
 

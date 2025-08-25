@@ -20,8 +20,6 @@ class SuplayBarangsTable
             ->columns([
                 TextColumn::make('nomor_pengiriman')
                     ->searchable(),
-                TextColumn::make('slug')
-                    ->searchable(),
                 TextColumn::make('id_user')
                     ->numeric()
                     ->sortable(),

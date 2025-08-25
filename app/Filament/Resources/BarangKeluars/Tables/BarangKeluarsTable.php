@@ -18,8 +18,6 @@ class BarangKeluarsTable
     {
         return $table
             ->columns([
-                TextColumn::make('slug')
-                    ->searchable(),
                 TextColumn::make('kode_barang')
                     ->searchable(),
                 TextColumn::make('id_user')

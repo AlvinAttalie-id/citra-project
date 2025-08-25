@@ -12,7 +12,6 @@ class StokBarangInfolist
         return $schema
             ->components([
                 TextEntry::make('kode_barang'),
-                TextEntry::make('slug'),
                 TextEntry::make('jumlah_stok')
                     ->numeric(),
                 TextEntry::make('harga')

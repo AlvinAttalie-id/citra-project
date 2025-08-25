@@ -11,7 +11,6 @@ class BarangKeluarInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('slug'),
                 TextEntry::make('kode_barang'),
                 TextEntry::make('id_user')
                     ->numeric(),

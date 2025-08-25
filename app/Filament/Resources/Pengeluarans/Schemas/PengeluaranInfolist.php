@@ -11,7 +11,6 @@ class PengeluaranInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('slug'),
                 TextEntry::make('jenis_pengeluaran'),
                 TextEntry::make('tgl_pengeluaran')
                     ->date(),

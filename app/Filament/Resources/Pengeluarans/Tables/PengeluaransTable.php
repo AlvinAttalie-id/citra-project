@@ -18,8 +18,6 @@ class PengeluaransTable
     {
         return $table
             ->columns([
-                TextColumn::make('slug')
-                    ->searchable(),
                 TextColumn::make('jenis_pengeluaran')
                     ->searchable(),
                 TextColumn::make('tgl_pengeluaran')

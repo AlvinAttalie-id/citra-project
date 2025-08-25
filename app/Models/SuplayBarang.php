@@ -31,13 +31,15 @@ class SuplayBarang extends Model
         parent::boot();
 
         static::creating(function ($suplay) {
-            $suplay->slug = Str::slug($suplay->nomor_pengiriman);
+            $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+            $slug = 'SBR-' . $randomNumber;
 
-            $originalSlug = $suplay->slug;
-            $count = 1;
-            while (static::where('slug', $suplay->slug)->exists()) {
-                $suplay->slug = $originalSlug . '-' . $count++;
+            while (static::where('slug', $slug)->exists()) {
+                $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+                $slug = 'SBR-' . $randomNumber;
             }
+
+            $suplay->slug = $slug;
         });
     }
 

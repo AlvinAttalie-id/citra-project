@@ -28,13 +28,15 @@ class StokBarang extends Model
         parent::boot();
 
         static::creating(function ($stok) {
-            $stok->slug = Str::slug($stok->jenis_barang);
+            $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+            $slug = 'SB-' . $randomNumber;
 
-            $originalSlug = $stok->slug;
-            $count = 1;
-            while (static::where('slug', $stok->slug)->exists()) {
-                $stok->slug = $originalSlug . '-' . $count++;
+            while (static::where('slug', $slug)->exists()) {
+                $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+                $slug = 'SB-' . $randomNumber;
             }
+
+            $stok->slug = $slug;
         });
     }
 

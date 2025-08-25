@@ -12,7 +12,6 @@ class SuplayBarangInfolist
         return $schema
             ->components([
                 TextEntry::make('nomor_pengiriman'),
-                TextEntry::make('slug'),
                 TextEntry::make('id_user')
                     ->numeric(),
                 TextEntry::make('kode_barang'),

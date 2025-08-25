@@ -11,8 +11,6 @@ class ReturnBarangInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('id_keluar')
-                    ->numeric(),
                 TextEntry::make('kode_barang'),
                 TextEntry::make('tanggal_r')
                     ->date(),

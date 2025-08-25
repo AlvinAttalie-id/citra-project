@@ -12,8 +12,6 @@ class BarangKeluarForm
     {
         return $schema
             ->components([
-                TextInput::make('slug')
-                    ->required(),
                 TextInput::make('kode_barang')
                     ->required(),
                 TextInput::make('id_user')

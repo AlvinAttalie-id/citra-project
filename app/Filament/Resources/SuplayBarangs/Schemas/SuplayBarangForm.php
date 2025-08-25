@@ -12,8 +12,6 @@ class SuplayBarangForm
     {
         return $schema
             ->components([
-                TextInput::make('slug')
-                    ->required(),
                 TextInput::make('id_user')
                     ->required()
                     ->numeric(),

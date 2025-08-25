@@ -12,8 +12,6 @@ class PengeluaranForm
     {
         return $schema
             ->components([
-                TextInput::make('slug')
-                    ->required(),
                 TextInput::make('jenis_pengeluaran')
                     ->required(),
                 DatePicker::make('tgl_pengeluaran')

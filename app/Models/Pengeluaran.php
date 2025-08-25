@@ -29,13 +29,16 @@ class Pengeluaran extends Model
         parent::boot();
 
         static::creating(function ($pengeluaran) {
-            $pengeluaran->slug = Str::slug($pengeluaran->jenis_pengeluaran);
+            $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+            $slug = 'PG-' . $randomNumber;
 
-            $originalSlug = $pengeluaran->slug;
-            $count = 1;
-            while (static::where('slug', $pengeluaran->slug)->exists()) {
-                $pengeluaran->slug = $originalSlug . '-' . $count++;
+            // Cek biar unik
+            while (static::where('slug', $slug)->exists()) {
+                $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+                $slug = 'PG-' . $randomNumber;
             }
+
+            $pengeluaran->slug = $slug;
         });
     }
 }

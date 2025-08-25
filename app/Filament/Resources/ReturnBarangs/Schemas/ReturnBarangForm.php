@@ -12,9 +12,6 @@ class ReturnBarangForm
     {
         return $schema
             ->components([
-                TextInput::make('id_keluar')
-                    ->required()
-                    ->numeric(),
                 TextInput::make('kode_barang')
                     ->required(),
                 DatePicker::make('tanggal_r')

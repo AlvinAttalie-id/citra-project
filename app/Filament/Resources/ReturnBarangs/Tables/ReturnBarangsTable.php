@@ -18,9 +18,6 @@ class ReturnBarangsTable
     {
         return $table
             ->columns([
-                TextColumn::make('id_keluar')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('kode_barang')
                     ->searchable(),
                 TextColumn::make('tanggal_r')
