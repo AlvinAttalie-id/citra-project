@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 class SuplayBarang extends Model
 {
-
     use SoftDeletes;
 
     protected $table = 'suplay_barang';
@@ -18,32 +17,53 @@ class SuplayBarang extends Model
 
     protected $fillable = [
         'nomor_pengiriman',
+        'slug',
         'id_user',
         'kode_barang',
         'tgl_pengiriman',
         'jumlah',
-        'keterangan'
+        'keterangan',
     ];
 
-    // Create a slug based on nomor_pengiriman
     protected static function boot()
     {
         parent::boot();
 
+        // Generate nomor_pengiriman & slug otomatis
         static::creating(function ($suplay) {
+            // nomor_pengiriman unik
             $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
-            $slug = 'SBR-' . $randomNumber;
+            $nomorPengiriman = 'SPY-' . $randomNumber;
+
+            while (static::where('nomor_pengiriman', $nomorPengiriman)->exists()) {
+                $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+                $nomorPengiriman = 'SPY-' . $randomNumber;
+            }
+
+            $suplay->nomor_pengiriman = $nomorPengiriman;
+
+            // slug otomatis dari nomor_pengiriman
+            $slug = Str::slug($nomorPengiriman);
+            $count = 1;
 
             while (static::where('slug', $slug)->exists()) {
-                $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
-                $slug = 'SBR-' . $randomNumber;
+                $slug = Str::slug($nomorPengiriman) . '-' . $count++;
             }
 
             $suplay->slug = $slug;
         });
+
+        // Update stok barang otomatis ketika ada suplay baru
+        static::created(function ($suplay) {
+            $stok = $suplay->stokBarang;
+            if ($stok) {
+                $stok->jumlah_stok += $suplay->jumlah;
+                $stok->save();
+            }
+        });
     }
 
-    // Define relationships
+    // Relationships
     public function supplier()
     {
         return $this->belongsTo(User::class, 'id_user');
