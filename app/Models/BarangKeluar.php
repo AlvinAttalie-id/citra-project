@@ -22,7 +22,8 @@ class BarangKeluar extends Model
         'id_user',
         'tgl_keluar',
         'jumlah',
-        'keterangan'
+        'keterangan',
+        'status'
     ];
 
     // Create a slug based on kode_barang and keterangan
@@ -33,6 +34,9 @@ class BarangKeluar extends Model
         static::creating(function ($keluar) {
             // Isi id_user otomatis
             $keluar->id_user = Auth::id();
+
+            // Set status default = process
+            $keluar->status = 'process';   // 🔹 otomatis "process"
 
             // Generate slug untuk Barang Keluar
             $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
@@ -66,6 +70,15 @@ class BarangKeluar extends Model
                 'keterangan'        => $keluar->keterangan,
             ]);
         });
+    }
+
+    // Update status barang if jumlah is 0 after return
+    public function updateStatusAfterReturn()
+    {
+        if ($this->jumlah <= 0) {
+            $this->status = 'return';
+        }
+        $this->save();
     }
 
     // Define relationships

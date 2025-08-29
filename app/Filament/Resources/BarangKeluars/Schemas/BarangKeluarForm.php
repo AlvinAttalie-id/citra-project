@@ -8,6 +8,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
+use Filament\Schemas\Components\Utilities\Get;
 
 class BarangKeluarForm
 {
@@ -21,7 +22,8 @@ class BarangKeluarForm
                         StokBarang::pluck('jenis_barang', 'kode_barang')
                     )
                     ->searchable()
-                    ->required(),
+                    ->required()
+                    ->reactive(),
                 TextInput::make('id_user')
                     ->default(fn() => Auth::id())
                     ->hidden(),
@@ -29,7 +31,18 @@ class BarangKeluarForm
                     ->required(),
                 TextInput::make('jumlah')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->minValue(1)
+                    ->maxValue(
+                        fn(Get $get) =>
+                        StokBarang::find($get('kode_barang'))?->jumlah_stok ?? 0
+                    )
+                    ->helperText(
+                        fn(Get $get) =>
+                        $get('kode_barang')
+                            ? 'Stok tersedia: ' . (StokBarang::find($get('kode_barang'))->jumlah_stok ?? 0)
+                            : 'Pilih barang terlebih dahulu'
+                    ),
                 TextInput::make('keterangan'),
             ]);
     }

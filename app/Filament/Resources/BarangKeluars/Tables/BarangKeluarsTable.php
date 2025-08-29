@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\BarangKeluars\Tables;
 
+use Filament\Actions\Action as ActionsAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -9,8 +10,10 @@ use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\Action;
 
 class BarangKeluarsTable
 {
@@ -36,6 +39,14 @@ class BarangKeluarsTable
                     ->sortable(),
                 TextColumn::make('keterangan')
                     ->searchable(),
+                TextColumn::make('status')
+                    ->badge()
+                    ->colors([
+                        'warning' => 'process',
+                        'success' => 'complete',
+                        'info'    => 'return',
+                    ])
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -54,7 +65,17 @@ class BarangKeluarsTable
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()
+                    ->visible(fn($record) => ! in_array($record->status, ['complete', 'return'])),
+                ActionsAction::make('setComplete')
+                    ->label('Set Complete')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->visible(fn($record) => $record->status === 'process')
+                    ->action(function ($record) {
+                        $record->update(['status' => 'complete']);
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

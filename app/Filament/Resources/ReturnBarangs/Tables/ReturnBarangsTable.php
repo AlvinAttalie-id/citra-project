@@ -20,6 +20,8 @@ class ReturnBarangsTable
             ->columns([
                 TextColumn::make('kode_barang')
                     ->searchable(),
+                TextColumn::make('kode_return')
+                    ->searchable(),
                 TextColumn::make('tanggal_r')
                     ->date()
                     ->sortable(),

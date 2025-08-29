@@ -12,6 +12,7 @@ class ReturnBarangInfolist
         return $schema
             ->components([
                 TextEntry::make('kode_barang'),
+                TextEntry::make('kode_return'),
                 TextEntry::make('tanggal_r')
                     ->date(),
                 TextEntry::make('jumlah')

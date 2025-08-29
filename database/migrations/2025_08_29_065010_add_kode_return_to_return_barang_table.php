@@ -1,0 +1,25 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('return_barang', function (Blueprint $table) {
+            $table->string('kode_return')->unique()->after('id_return');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('return_barang', function (Blueprint $table) {
+            $table->dropColumn('kode_return');
+        });
+    }
+};
