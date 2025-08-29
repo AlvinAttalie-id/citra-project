@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BarangRusak extends Model
 {
-
     use SoftDeletes;
 
     protected $table = 'barang_rusak';
@@ -21,12 +20,12 @@ class BarangRusak extends Model
         'keterangan'
     ];
 
-    // Automatically adjust stock when a damaged item is created
     protected static function boot()
     {
         parent::boot();
 
         static::created(function ($rusak) {
+            // Kurangi stok
             $stok = $rusak->stokBarang;
             if ($stok) {
                 $stok->jumlah_stok -= $rusak->jumlah_rusak;
@@ -35,10 +34,19 @@ class BarangRusak extends Model
                 }
                 $stok->save();
             }
+
+            // Buat pengeluaran otomatis
+            Pengeluaran::create([
+                'jenis_pengeluaran' => 'Pemusnahan Barang Rusak',
+                'tgl_pengeluaran'   => $rusak->tanggal,
+                'biaya'             => 50000,
+                'bukti'             => 'bukti-kosong.png',
+                'keterangan'        => $rusak->keterangan,
+            ]);
         });
     }
 
-    // Define relationships
+    // Relationship
     public function stokBarang()
     {
         return $this->belongsTo(StokBarang::class, 'kode_barang');
