@@ -20,6 +20,10 @@ class BarangRusaksTable
             ->columns([
                 TextColumn::make('kode_barang')
                     ->searchable(),
+                TextColumn::make('stokBarang.jenis_barang')
+                    ->label('Jenis Barang')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('jumlah_rusak')
                     ->numeric()
                     ->sortable(),

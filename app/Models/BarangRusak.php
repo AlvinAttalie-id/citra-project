@@ -21,6 +21,23 @@ class BarangRusak extends Model
         'keterangan'
     ];
 
+    // Automatically adjust stock when a damaged item is created
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($rusak) {
+            $stok = $rusak->stokBarang;
+            if ($stok) {
+                $stok->jumlah_stok -= $rusak->jumlah_rusak;
+                if ($stok->jumlah_stok < 0) {
+                    $stok->jumlah_stok = 0;
+                }
+                $stok->save();
+            }
+        });
+    }
+
     // Define relationships
     public function stokBarang()
     {
