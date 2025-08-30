@@ -17,7 +17,8 @@ class BarangRusak extends Model
         'kode_barang',
         'jumlah_rusak',
         'tanggal',
-        'keterangan'
+        'keterangan',
+        'id_user',
     ];
 
     protected static function boot()
@@ -42,13 +43,20 @@ class BarangRusak extends Model
                 'biaya'             => 50000,
                 'bukti'             => 'bukti-kosong.png',
                 'keterangan'        => $rusak->keterangan,
+                'id_user'           => $rusak->user_id, // kalau di pengeluaran ada id_user
             ]);
         });
     }
 
-    // Relationship
+    // Relasi ke stok barang
     public function stokBarang()
     {
-        return $this->belongsTo(StokBarang::class, 'kode_barang');
+        return $this->belongsTo(StokBarang::class, 'kode_barang', 'kode_barang');
+    }
+
+    // Relasi ke user
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 }

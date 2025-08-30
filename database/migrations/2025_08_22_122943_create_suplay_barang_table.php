@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('suplay_barang', function (Blueprint $table) {
             $table->string('nomor_pengiriman', 20)->primary();
             $table->string('slug')->unique();
-            $table->unsignedBigInteger('id_user'); // suplayer
+            $table->unsignedBigInteger('id_user');
             $table->string('kode_barang', 20);
             $table->date('tgl_pengiriman');
             $table->integer('jumlah');
