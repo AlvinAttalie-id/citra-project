@@ -43,7 +43,7 @@ class BarangRusak extends Model
                 'biaya'             => 50000,
                 'bukti'             => 'bukti-kosong.png',
                 'keterangan'        => $rusak->keterangan,
-                'id_user'           => $rusak->user_id, // kalau di pengeluaran ada id_user
+                'id_user'           => $rusak->id_user,
             ]);
         });
     }

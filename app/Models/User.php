@@ -14,13 +14,10 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $primaryKey = 'id_user';
+    public $incrementing = true;
+    protected $keyType = 'int';
     public $timestamps = true;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'username',
         'email',
@@ -31,33 +28,23 @@ class User extends Authenticatable
         'role',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'password' => 'hashed',
     ];
 
-    // Define relationships
+    // Relationships
     public function suplayBarang()
     {
-        return $this->hasMany(SuplayBarang::class, 'id_user');
+        return $this->hasMany(SuplayBarang::class, 'id_user', 'id_user');
     }
 
     public function barangKeluar()
     {
-        return $this->hasMany(BarangKeluar::class, 'id_user');
+        return $this->hasMany(BarangKeluar::class, 'id_user', 'id_user');
     }
 }

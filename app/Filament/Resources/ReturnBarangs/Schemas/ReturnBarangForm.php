@@ -8,6 +8,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
 use App\Models\BarangKeluar;
+use App\Models\User;
 
 class ReturnBarangForm
 {
@@ -15,7 +16,15 @@ class ReturnBarangForm
     {
         return $schema
             ->components([
-
+                Select::make('id_user')
+                    ->label('Pilih Suplayer')
+                    ->options(
+                        User::where('role', 'suplayer')
+                            ->pluck('name', 'id_user')
+                            ->toArray()
+                    )
+                    ->searchable()
+                    ->required(),
                 Select::make('id_keluar')
                     ->label('Barang Keluar')
                     ->options(
@@ -32,12 +41,17 @@ class ReturnBarangForm
                     ->required()
                     ->numeric()
                     ->minValue(1)
-                    ->maxValue(fn(Get $get) => BarangKeluar::find($get('id_keluar'))?->jumlah ?? 0)
-                    ->helperText(fn(Get $get) => $get('id_keluar')
-                        ? 'Maksimal return: ' . (BarangKeluar::find($get('id_keluar'))->jumlah ?? 0)
-                        : 'Pilih barang keluar terlebih dahulu'),
+                    ->maxValue(
+                        fn(Get $get) =>
+                        BarangKeluar::find($get('id_keluar'))?->jumlah ?? 0
+                    )
+                    ->helperText(
+                        fn(Get $get) =>
+                        $get('id_keluar')
+                            ? 'Maksimal return: ' . (BarangKeluar::find($get('id_keluar'))->jumlah ?? 0)
+                            : 'Pilih barang keluar terlebih dahulu'
+                    ),
                 TextInput::make('alasan'),
-
             ]);
     }
 }

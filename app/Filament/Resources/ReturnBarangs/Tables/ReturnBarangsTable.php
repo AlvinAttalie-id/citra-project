@@ -22,6 +22,10 @@ class ReturnBarangsTable
                     ->searchable(),
                 TextColumn::make('kode_return')
                     ->searchable(),
+                TextColumn::make('user.name')
+                    ->label('Suplayer')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('tanggal_r')
                     ->date()
                     ->sortable(),

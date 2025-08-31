@@ -20,9 +20,10 @@ class SuplayBarangsTable
             ->columns([
                 TextColumn::make('nomor_pengiriman')
                     ->searchable(),
-                TextColumn::make('id_user')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('user.name')
+                    ->label('Suplayer')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('kode_barang')
                     ->searchable(),
                 TextColumn::make('tgl_pengiriman')

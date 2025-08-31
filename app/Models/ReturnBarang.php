@@ -11,6 +11,8 @@ class ReturnBarang extends Model
 
     protected $table = 'return_barang';
     protected $primaryKey = 'id_return';
+    public $incrementing = true;
+    protected $keyType = 'int';
     public $timestamps = true;
 
     protected $fillable = [
@@ -20,10 +22,9 @@ class ReturnBarang extends Model
         'tanggal_r',
         'jumlah',
         'alasan',
-        'id_user', // tambahkan agar bisa diisi
+        'id_user',
     ];
 
-    // Relasi ke barang keluar
     public function barangKeluar()
     {
         return $this->belongsTo(BarangKeluar::class, 'id_keluar');
@@ -36,7 +37,7 @@ class ReturnBarang extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(User::class, 'id_user', 'id_user'); // ✅ fix
     }
 
     protected static function boot()
@@ -47,21 +48,17 @@ class ReturnBarang extends Model
             $keluar = $return->barangKeluar;
 
             if ($keluar) {
-                // tidak boleh return jika status complete atau return
                 if (in_array($keluar->status, ['complete', 'return'])) {
                     throw new \Exception('Barang keluar ini sudah tidak bisa direturn.');
                 }
 
-                // isi otomatis kode_barang
                 $return->kode_barang = $keluar->kode_barang;
 
-                // validasi jumlah return
                 if ($return->jumlah > $keluar->jumlah) {
                     throw new \Exception('Jumlah return melebihi jumlah barang keluar.');
                 }
             }
 
-            // generate kode_return unik
             do {
                 $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
                 $kodeReturn = 'RB-' . $randomNumber;
@@ -71,12 +68,10 @@ class ReturnBarang extends Model
         });
 
         static::created(function ($return) {
-            // kembalikan stok
             if ($return->stokBarang) {
                 $return->stokBarang->increment('jumlah_stok', $return->jumlah);
             }
 
-            // kurangi jumlah di barang keluar
             if ($return->barangKeluar) {
                 $return->barangKeluar->jumlah -= $return->jumlah;
                 if ($return->barangKeluar->jumlah < 0) {
@@ -87,7 +82,6 @@ class ReturnBarang extends Model
         });
 
         static::deleted(function ($return) {
-            // rollback stok
             if ($return->stokBarang) {
                 $return->stokBarang->decrement('jumlah_stok', $return->jumlah);
                 if ($return->stokBarang->jumlah_stok < 0) {
@@ -96,10 +90,9 @@ class ReturnBarang extends Model
                 }
             }
 
-            // kembalikan jumlah di barang keluar
             if ($return->barangKeluar) {
                 $return->barangKeluar->jumlah += $return->jumlah;
-                $return->barangKeluar->status = 'process'; // kembalikan jadi process kalau dihapus
+                $return->barangKeluar->status = 'process';
                 $return->barangKeluar->save();
             }
         });
