@@ -2,7 +2,9 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Actions\Action as ActionsAction;
 use Filament\Pages\Page;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\SuplayBarang;
 use App\Models\BarangRusak;
 use App\Models\ReturnBarang;
@@ -10,6 +12,8 @@ use App\Models\User;
 use BackedEnum;
 use UnitEnum;
 use Filament\Support\Icons\Heroicon;
+use App\Filament\Widgets\LaporanSupplierChart;
+use App\Services\LaporanSupplierService;
 
 class LaporanSupplier extends Page
 {
@@ -18,39 +22,30 @@ class LaporanSupplier extends Page
     protected static ?string $title = 'Laporan Supplier Performance';
     protected string $view = 'filament.pages.laporan-supplier';
 
-    public array $laporan = [];
-
-    public function mount(): void
+    protected function getHeaderWidgets(): array
     {
-        $this->laporan = $this->getLaporan();
+        return [
+            LaporanSupplierChart::class,
+        ];
     }
 
-    private function getLaporan(): array
+    protected function getHeaderActions(): array
     {
-        // Ambil user yang punya role suplayer
-        $suppliers = User::role('suplayer')->get();
+        return [
+            ActionsAction::make('exportPdf')
+                ->label('Cetak PDF')
+                ->icon('heroicon-o-printer')
+                ->action(function () {
+                    $laporan = LaporanSupplierService::getLaporan();
 
-        $laporan = [];
+                    $pdf = Pdf::loadView('reports.supplier-performance', compact('laporan'))
+                        ->setPaper('a4', 'portrait');
 
-        foreach ($suppliers as $supplier) {
-            $totalSupply = SuplayBarang::where('id_user', $supplier->id_user)->sum('jumlah');
-            $totalRusak  = BarangRusak::where('id_user', $supplier->id_user)->sum('jumlah_rusak');
-            $totalReturn = ReturnBarang::where('id_user', $supplier->id_user)->sum('jumlah');
-
-
-            $efisiensi = $totalSupply > 0
-                ? round((($totalSupply - ($totalRusak + $totalReturn)) / $totalSupply) * 100, 2)
-                : 0;
-
-            $laporan[] = [
-                'nama_supplier' => $supplier->name,
-                'total_supply'  => $totalSupply,
-                'total_rusak'   => $totalRusak,
-                'total_return'  => $totalReturn,
-                'efisiensi'     => $efisiensi,
-            ];
-        }
-
-        return $laporan;
+                    return response()->streamDownload(
+                        fn() => print($pdf->output()),
+                        'laporan-supplier-performance.pdf'
+                    );
+                }),
+        ];
     }
 }
