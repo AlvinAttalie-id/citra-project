@@ -23,6 +23,7 @@ class LaporanSupplierChart extends ChartWidget
             $totalSupply = SuplayBarang::where('id_user', $supplier->id_user)->sum('jumlah');
             $totalRusak  = BarangRusak::where('id_user', $supplier->id_user)->sum('jumlah_rusak');
             $totalReturn = ReturnBarang::where('id_user', $supplier->id_user)->sum('jumlah');
+
             $rate = $totalSupply > 0
                 ? round((($totalSupply - ($totalRusak + $totalReturn)) / $totalSupply) * 100, 2)
                 : 0;
@@ -36,7 +37,10 @@ class LaporanSupplierChart extends ChartWidget
                 [
                     'label' => 'Efisiensi (%)',
                     'data' => $efisiensi,
-                    'backgroundColor' => '#3b82f6',
+                    'borderColor' => '#3b82f6',
+                    'backgroundColor' => 'rgba(59, 130, 246, 0.2)', // area transparan
+                    'tension' => 0.4, // biar line agak melengkung
+                    'fill' => true,   // kalau mau ada shading area
                 ],
             ],
             'labels' => $labels,
@@ -45,6 +49,6 @@ class LaporanSupplierChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'line';
     }
 }
