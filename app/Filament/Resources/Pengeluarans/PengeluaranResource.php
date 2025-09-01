@@ -25,7 +25,7 @@ class PengeluaranResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Data Master';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArchiveBoxArrowDown;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedWallet;
 
     protected static ?string $recordTitleAttribute = 'Pengeluaran';
 
