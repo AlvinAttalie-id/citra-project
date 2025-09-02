@@ -37,7 +37,7 @@ class ReturnBarang extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_user', 'id_user'); // ✅ fix
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
     protected static function boot()

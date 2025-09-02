@@ -64,13 +64,13 @@ class SuplayBarang extends Model
     }
 
     // Relationships
-    public function supplier()
-    {
-        return $this->belongsTo(User::class, 'id_user');
-    }
-
     public function stokBarang()
     {
         return $this->belongsTo(StokBarang::class, 'kode_barang');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 }
