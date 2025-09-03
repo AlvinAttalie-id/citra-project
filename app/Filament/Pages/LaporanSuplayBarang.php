@@ -41,7 +41,7 @@ class LaporanSuplayBarang extends Page
                         tahun: $filters['tahun'] ?? null,
                     );
 
-                    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reports.suplay-barang', [
+                    $pdf = Pdf::loadView('reports.suplay-barang', [
                         'laporan' => $laporan,
                     ])->setPaper('a4', 'portrait');
 

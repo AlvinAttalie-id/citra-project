@@ -8,6 +8,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 
 class LaporanSuplayBarangTable extends BaseWidget
 {
@@ -63,7 +64,25 @@ class LaporanSuplayBarangTable extends BaseWidget
                             ->when($data['from'], fn($q, $date) => $q->whereDate('tgl_pengiriman', '>=', $date))
                             ->when($data['until'], fn($q, $date) => $q->whereDate('tgl_pengiriman', '<=', $date));
                     }),
+
+                Filter::make('tahun')
+                    ->label('Tahun')
+                    ->form([
+                        Select::make('tahun')
+                            ->options(
+                                SuplayBarang::selectRaw('YEAR(tgl_pengiriman) as tahun')
+                                    ->distinct()
+                                    ->orderByDesc('tahun')
+                                    ->pluck('tahun', 'tahun')
+                            )
+                            ->placeholder('Pilih Tahun')
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when($data['tahun'], fn($q, $tahun) => $q->whereYear('tgl_pengiriman', $tahun));
+                    }),
             ])
+
             ->defaultSort('tgl_pengiriman', 'desc');
     }
 }
