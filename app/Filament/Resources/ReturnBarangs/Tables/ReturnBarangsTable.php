@@ -89,7 +89,7 @@ class ReturnBarangsTable
 
                         $totalReturn = $records->sum('jumlah');
 
-                        $pdf = Pdf::loadView('pdf.laporan-return-barang', [
+                        $pdf = Pdf::loadView('reports.laporan-return-barang', [
                             'records' => $records,
                             'totalReturn' => $totalReturn,
                         ]);

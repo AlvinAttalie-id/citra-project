@@ -13,9 +13,9 @@ use Filament\Support\Icons\Heroicon;
 
 class LaporanStokBarang extends Page
 {
-    protected static string|UnitEnum|null $navigationGroup = 'Report';
+    protected static string|UnitEnum|null $navigationGroup = 'Data Master';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArchiveBox;
-    protected static ?string $title = 'Laporan Stok Barang';
+    protected static ?string $title = 'Data Stok Barang';
     protected string $view = 'filament.pages.laporan-stok-barang';
 
     protected function getHeaderWidgets(): array

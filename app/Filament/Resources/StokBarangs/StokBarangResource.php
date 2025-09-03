@@ -23,7 +23,7 @@ class StokBarangResource extends Resource
 {
     protected static ?string $model = StokBarang::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Data Master';
+    protected static string | UnitEnum | null $navigationGroup = 'Data Barang';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
 

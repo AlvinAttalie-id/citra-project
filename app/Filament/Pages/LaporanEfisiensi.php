@@ -13,9 +13,9 @@ use App\Services\LaporanEfisiensiService;
 
 class LaporanEfisiensi extends Page
 {
-    protected static string|UnitEnum|null $navigationGroup = 'Report';
+    protected static string|UnitEnum|null $navigationGroup = 'Data Master';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
-    protected static ?string $title = 'Laporan Efisiensi Gudang';
+    protected static ?string $title = 'Data Efisiensi Gudang';
     protected string $view = 'filament.pages.laporan-efisiensi';
 
     protected function getHeaderWidgets(): array

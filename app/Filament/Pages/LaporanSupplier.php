@@ -17,9 +17,9 @@ use App\Services\LaporanSupplierService;
 
 class LaporanSupplier extends Page
 {
-    protected static string|UnitEnum|null $navigationGroup = 'Report';
+    protected static string|UnitEnum|null $navigationGroup = 'Data Master';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTruck;
-    protected static ?string $title = 'Laporan Supplier Performance';
+    protected static ?string $title = 'Data Supplier Performance';
     protected string $view = 'filament.pages.laporan-supplier';
 
     protected function getHeaderWidgets(): array

@@ -23,7 +23,7 @@ class BarangRusakResource extends Resource
 {
     protected static ?string $model = BarangRusak::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Data Master';
+    protected static string | UnitEnum | null $navigationGroup = 'Data Barang';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArchiveBoxXMark;
 

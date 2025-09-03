@@ -13,9 +13,9 @@ use App\Services\LaporanBarangService;
 
 class LaporanBarang extends Page
 {
-    protected static string|UnitEnum|null $navigationGroup = 'Report';
+    protected static string|UnitEnum|null $navigationGroup = 'Data Master';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTruck;
-    protected static ?string $title = 'Laporan Barang Masuk dan Keluar';
+    protected static ?string $title = 'Data Barang Masuk dan Keluar';
     protected string $view = 'filament.pages.laporan-barang';
 
     protected function getHeaderWidgets(): array
