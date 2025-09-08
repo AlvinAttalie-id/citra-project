@@ -12,10 +12,7 @@ class FilamentServiceProvider extends ServiceProvider
     {
         Filament::serving(function () {
             Filament::auth(function () {
-                $user = Auth::user();
-
-                // hanya izinkan role 'admin'
-                return $user && $user->hasRole('admin');
+                return true; // izinkan semua user
             });
         });
     }
