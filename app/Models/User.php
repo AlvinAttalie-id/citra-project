@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Filament\Panel;
+
 
 class User extends Authenticatable
 {
@@ -46,5 +48,11 @@ class User extends Authenticatable
     public function barangKeluar()
     {
         return $this->hasMany(BarangKeluar::class, 'id_user', 'id_user');
+    }
+
+    // Relationships
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true; // izinkan semua user
     }
 }
