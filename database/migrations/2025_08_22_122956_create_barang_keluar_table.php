@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id('id_keluar');
             $table->string('slug')->unique();
             $table->string('kode_barang', 20);
-            $table->unsignedBigInteger('id_user'); // admin/petugas
+            $table->unsignedBigInteger('id_user');
             $table->date('tgl_keluar');
             $table->integer('jumlah');
             $table->string('keterangan', 100)->nullable();
             $table->timestamps();
             $table->softDeletes();
-
+            $table->string('status', 50)->default('process');
             $table->foreign('kode_barang')->references('kode_barang')->on('stok_barang')->cascadeOnDelete();
             $table->foreign('id_user')->references('id_user')->on('users')->cascadeOnDelete();
         });

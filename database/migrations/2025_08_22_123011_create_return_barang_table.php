@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('alasan', 100)->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->string('kode_return', 50)->unique();
+            $table->unsignedBigInteger('id_user');
+            $table->foreign('id_user')->references('id_user')->on('users')->cascadeOnDelete();
 
             $table->foreign('id_keluar')->references('id_keluar')->on('barang_keluar')->cascadeOnDelete();
             $table->foreign('kode_barang')->references('kode_barang')->on('stok_barang')->cascadeOnDelete();
