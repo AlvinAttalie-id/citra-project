@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Filament\Panel;
 
-
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable, SoftDeletes, HasRoles;
 
@@ -50,9 +50,16 @@ class User extends Authenticatable
         return $this->hasMany(BarangKeluar::class, 'id_user', 'id_user');
     }
 
-    // Relationships
+    /**
+     * Filament User Access
+     */
     public function canAccessPanel(Panel $panel): bool
     {
-        return true; // izinkan semua user
+        // Izinkan semua user
+        return true;
+
+        // Atau kalau mau dibatasi:
+        // return $this->hasRole('admin');
+        // return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
     }
 }
