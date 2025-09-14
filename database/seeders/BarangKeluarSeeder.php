@@ -14,7 +14,7 @@ class BarangKeluarSeeder extends Seeder
             [
                 'slug' => Str::slug('penjualan beras agustus'),
                 'kode_barang' => 'BRG001',
-                'id_user' => 1, // admin
+                'id_user' => 1,
                 'tgl_keluar' => '2025-08-05',
                 'jumlah' => 20,
                 'keterangan' => 'Penjualan ke toko grosir A',

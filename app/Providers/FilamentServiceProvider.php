@@ -12,7 +12,7 @@ class FilamentServiceProvider extends ServiceProvider
     {
         Filament::serving(function () {
             Filament::auth(function () {
-                return true; // izinkan semua user
+                return true;
             });
         });
     }
