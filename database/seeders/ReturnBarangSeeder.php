@@ -3,24 +3,27 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\ReturnBarang;
+use App\Models\BarangKeluar;
+use App\Models\User;
+use Carbon\Carbon;
 
 class ReturnBarangSeeder extends Seeder
 {
     public function run(): void
     {
-        $data = [
-            [
-                'id_keluar' => 1, // refer ke barang keluar
-                'kode_barang' => 'BRG001',
-                'tanggal_r' => '2025-08-07',
-                'jumlah' => 2,
-                'alasan' => 'Kemasan rusak saat diterima',
-            ],
-        ];
+        $admin = User::where('role', 'admin')->first();
+        $keluar = BarangKeluar::inRandomOrder()->first();
 
-        foreach ($data as $item) {
-            DB::table('return_barang')->insertOrIgnore($item);
+        if ($keluar) {
+            ReturnBarang::create([
+                'id_keluar' => $keluar->id_keluar,
+                'kode_barang' => $keluar->kode_barang,
+                'tanggal_r' => Carbon::now(),
+                'jumlah' => 1,
+                'alasan' => 'Barang tidak sesuai',
+                'id_user' => $admin->id_user,
+            ]);
         }
     }
 }

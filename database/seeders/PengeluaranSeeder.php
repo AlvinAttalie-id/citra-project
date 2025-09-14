@@ -3,8 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use App\Models\Pengeluaran;
 
 class PengeluaranSeeder extends Seeder
 {
@@ -12,7 +11,6 @@ class PengeluaranSeeder extends Seeder
     {
         $data = [
             [
-                'slug' => Str::slug('biaya listrik agustus'),
                 'jenis_pengeluaran' => 'Biaya Listrik Bulanan',
                 'tgl_pengeluaran' => '2025-08-05',
                 'biaya' => 1500000,
@@ -20,7 +18,6 @@ class PengeluaranSeeder extends Seeder
                 'keterangan' => 'Pembayaran PLN Agustus',
             ],
             [
-                'slug' => Str::slug('biaya transport pengiriman'),
                 'jenis_pengeluaran' => 'Transportasi Pengiriman',
                 'tgl_pengeluaran' => '2025-08-06',
                 'biaya' => 500000,
@@ -30,10 +27,7 @@ class PengeluaranSeeder extends Seeder
         ];
 
         foreach ($data as $item) {
-            DB::table('pengeluaran')->updateOrInsert(
-                ['slug' => $item['slug']],
-                $item
-            );
+            Pengeluaran::create($item);
         }
     }
 }

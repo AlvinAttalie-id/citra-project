@@ -20,6 +20,7 @@ class Pengeluaran extends Model
         'tgl_pengeluaran',
         'biaya',
         'bukti',
+        'id_user',
         'keterangan'
     ];
 

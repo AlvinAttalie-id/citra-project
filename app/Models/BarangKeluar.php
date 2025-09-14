@@ -26,19 +26,20 @@ class BarangKeluar extends Model
         'status'
     ];
 
-    // Create a slug based on kode_barang and keterangan
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($keluar) {
-            // Isi id_user otomatis
-            $keluar->id_user = Auth::id();
+
+            if (!app()->runningInConsole()) {
+                $keluar->id_user = Auth::id();
+            }
 
             // Set status default = process
-            $keluar->status = 'process';   // 🔹 otomatis "process"
+            $keluar->status = $keluar->status ?? 'process';
 
-            // Generate slug untuk Barang Keluar
+            // Generate slug unik
             $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
             $slug = 'BK-' . $randomNumber;
 

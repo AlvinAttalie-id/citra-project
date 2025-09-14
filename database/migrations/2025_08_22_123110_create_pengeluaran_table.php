@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('pengeluaran', function (Blueprint $table) {
             $table->id('id_pengeluaran');
+            $table->unsignedBigInteger('id_user')->nullable();
+            $table->foreign('id_user')
+                ->references('id_user')
+                ->on('users')
+                ->onDelete('set null');
             $table->string('slug')->unique();
             $table->string('jenis_pengeluaran', 100);
             $table->date('tgl_pengeluaran');

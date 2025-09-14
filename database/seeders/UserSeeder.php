@@ -9,7 +9,7 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Buat user Admin
+        // Admin
         $admin = User::firstOrCreate(
             ['username' => 'admin'],
             [
@@ -23,18 +23,25 @@ class UserSeeder extends Seeder
         );
         $admin->assignRole('admin');
 
-        // Buat user Suplayer
-        $suplayer = User::firstOrCreate(
-            ['username' => 'suplayer1'],
-            [
-                'name' => 'Supplier Default',
-                'email' => 'suplier@example.com',
-                'password' => bcrypt('password123'),
-                'alamat' => 'Jl. Suplai Barang No.2',
-                'no_hp' => '089876543210',
-                'role' => 'suplayer',
-            ]
-        );
-        $suplayer->assignRole('suplayer');
+        $suplayers = [
+            ['username' => 'jne', 'name' => 'JNE Express', 'email' => 'jne@example.com'],
+            ['username' => 'jnt', 'name' => 'J&T Express', 'email' => 'jnt@example.com'],
+            ['username' => 'sicepat', 'name' => 'SiCepat Ekspres', 'email' => 'sicepat@example.com'],
+        ];
+
+        foreach ($suplayers as $sp) {
+            $user = User::firstOrCreate(
+                ['username' => $sp['username']],
+                [
+                    'name' => $sp['name'],
+                    'email' => $sp['email'],
+                    'password' => bcrypt('password123'),
+                    'alamat' => 'Jl. Gudang Besar No.99',
+                    'no_hp' => '0812345678',
+                    'role' => 'suplayer',
+                ]
+            );
+            $user->assignRole('suplayer');
+        }
     }
 }
