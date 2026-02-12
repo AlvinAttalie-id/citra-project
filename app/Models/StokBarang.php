@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use App\Models\SuplayBarang;
+use App\Models\BarangKeluar;
+use App\Models\ReturnBarang;
+use App\Models\BarangRusak;
 
 class StokBarang extends Model
 {
@@ -27,17 +31,16 @@ class StokBarang extends Model
     {
         parent::boot();
 
-        static::creating(function ($stok) {
-            $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
-            $slug = 'SB-' . $randomNumber;
+       static::creating(function ($stok) {
+    do {
+        $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+        $kode = 'SB-' . $randomNumber;
+    } while (static::where('kode_barang', $kode)->exists());
 
-            while (static::where('slug', $slug)->exists()) {
-                $randomNumber = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
-                $slug = 'SB-' . $randomNumber;
-            }
+    $stok->kode_barang = $kode;
+    $stok->slug = $kode;
+    });
 
-            $stok->slug = $slug;
-        });
     }
 
     // Define relationships
