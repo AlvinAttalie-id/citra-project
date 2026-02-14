@@ -25,6 +25,8 @@ class ReturnBarangResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Data Barang';
 
+    protected static ?string $navigationLabel = 'Return Barang';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArchiveBox;
 
     protected static ?string $recordTitleAttribute = 'ReturnBarang';

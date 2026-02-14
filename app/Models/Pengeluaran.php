@@ -12,6 +12,9 @@ class Pengeluaran extends Model
 
     protected $table = 'pengeluaran';
     protected $primaryKey = 'id_pengeluaran';
+    protected $casts = [
+    'tgl_pengeluaran' => 'date',
+    ];
     public $timestamps = true;
 
     protected $fillable = [

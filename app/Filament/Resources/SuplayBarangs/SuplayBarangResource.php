@@ -25,6 +25,8 @@ class SuplayBarangResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Data Barang';
 
+    protected static ?string $navigationLabel = 'Suplay Barang';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentCheck;
 
     protected static ?string $recordTitleAttribute = 'SuplayBarang';

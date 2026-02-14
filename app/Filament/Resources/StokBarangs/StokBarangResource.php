@@ -25,6 +25,8 @@ class StokBarangResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Data Barang';
 
+    protected static ?string $navigationLabel = 'Data Barang';
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?string $recordTitleAttribute = 'StokBarang';

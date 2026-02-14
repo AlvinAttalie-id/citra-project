@@ -25,6 +25,8 @@ class BarangRusakResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Data Barang';
 
+    protected static ?string $navigationLabel = 'Barang Rusak';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArchiveBoxXMark;
 
     protected static ?string $recordTitleAttribute = 'BarangRusak';

@@ -23,7 +23,11 @@ class PengeluaranResource extends Resource
 {
     protected static ?string $model = Pengeluaran::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Data Master';
+    protected static string | UnitEnum | null $navigationGroup = 'Data Transaksi';
+
+    protected static ?string $navigationLabel = 'Transaksi Pengeluaran';
+
+    protected static ?string $modelLabel = 'Data Transaksi ';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedWallet;
 

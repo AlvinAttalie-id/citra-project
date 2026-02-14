@@ -23,6 +23,7 @@ class PengeluaransTable
     public static function configure(Table $table): Table
     {
         return $table
+         ->defaultSort('tgl_pengeluaran', 'desc')
             ->columns([
                 TextColumn::make('slug')
                     ->label('Kode Pengeluaran')

@@ -25,6 +25,8 @@ class BarangKeluarResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Data Barang';
 
+    protected static ?string $navigationLabel = 'Barang Keluar';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
 
     protected static ?string $recordTitleAttribute = 'BarangKeluar';
