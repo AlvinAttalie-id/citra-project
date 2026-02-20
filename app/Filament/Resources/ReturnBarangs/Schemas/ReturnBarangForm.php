@@ -9,6 +9,7 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
 use App\Models\BarangKeluar;
 use App\Models\User;
+use Filament\Forms\Components\Hidden;
 
 class ReturnBarangForm
 {
@@ -27,14 +28,34 @@ class ReturnBarangForm
                     ->required(),
                 Select::make('id_keluar')
                     ->label('Barang Keluar')
-                    ->options(
-                        BarangKeluar::with('stokBarang')
-                            ->where('status', 'process')
+                    ->options(function ($record) {
+                        return BarangKeluar::with('stokBarang')
+                            ->whereHas('stokBarang')
+                            ->where(function ($query) use ($record) {
+                                $query->where('status', 'process');
+
+                                if ($record?->id_keluar) {
+                                    $query->orWhere('id_keluar', $record->id_keluar);
+                                }
+                            })
                             ->get()
-                            ->pluck('stokBarang.jenis_barang', 'id_keluar')
-                    )
+                            ->mapWithKeys(fn($item) => [
+                                $item->id_keluar => $item->stokBarang->jenis_barang ?? '-'
+                            ]);
+                    })
                     ->reactive()
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        $barangKeluar = BarangKeluar::with('stokBarang')->find($state);
+                        $set('id_barang', $barangKeluar?->stokBarang?->id_barang);
+                    })
+                    ->afterStateHydrated(function ($state, callable $set) {
+                        if ($state) {
+                            $barangKeluar = BarangKeluar::with('stokBarang')->find($state);
+                            $set('id_barang', $barangKeluar?->stokBarang?->id_barang);
+                        }
+                    })
                     ->required(),
+                Hidden::make('id_barang'),
                 DatePicker::make('tanggal_r')
                     ->required(),
                 TextInput::make('jumlah')
